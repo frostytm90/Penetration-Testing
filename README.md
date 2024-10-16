@@ -341,7 +341,47 @@ access during the vulnerability assessment and brute-force attack stages.
 
 Here is the code snippet that handles the extraction of service ports:
 
-![Code Snippet](.\images\code_snippet.png "Code Snippet")
+![Code Snippet](.\images\extractionSP.png "ESP")
+
+### Detailed Explanation
+
+* Reading the Output File:
+    * The script opens the Nmap scan results file (`tcp_scan_results.txt`) and reads its contents line by line. This allows the script to parse the results and identify relevant information about open ports and services.
+* Regex Pattern for Extraction:
+    * The script uses a regular expression (regex) to search for lines that match the pattern of an open TCP port followed by the service name. 
+    
+    > Specifically, it looks for:
+    > `\d{1,5}/tcp`: This matches the port number (which can be between1 and 5 digits) followed by /tcp.
+    > `\s+open\s+`: This matches the word "open" with any amount of whitespace before and after it.
+    > `\S+`: This captures the service name, which consists of one or more non-whitespace characters.
+    > * The regex effectively identifies lines that indicate an open TCP port and the associated service.
+* Extracting Port and Service Name:
+    * Once the regex finds a match, the script extracts the port number and service name from the matched string.
+    * port = `match.group(1).split('/')[0]`: This extracts the port number from the match and removes the /tcp suffix, leaving just the numeric value.
+    * service_name = `match.group(2).lower()`: This extracts the service name and converts it to lowercase for consistency.
+    * The extracted port and service name are stored in a dictionary (service_ports), where the service name is the key, and the port number isthe value.
+* Storing the Data:
+    * The dictionary service_ports stores the mapping of service names to their corresponding ports. This dictionary is returned at the end of the function and is used later in the script to identify which ports to target during brute-force attacks.
+
+    > Example Output:
+○ If the TCP scan detects the following services, the service_ports dictionary
+might look like this:
+Why This is Important
+This step is crucial because it provides a structured way to access the services detected during
+the scan. By storing the service-port mappings in a dictionary, the script can efficiently identify
+and target specific services during the vulnerability assessment and brute-force attack stages.
+The regex pattern matches this line, extracts the port number (22) and service name (ssh), and
+adds them to the service_ports dictionary. This allows the script to later reference the SSH
+service and its associated port number when performing brute-force attacks or vulnerability
+assessments.
+By breaking down the scan results in this way, the script ensures that it can easily access and
+utilize the information gathered during the TCP scan. This structured approach is essential for
+the subsequent stages of the script, where precise targeting of services is required.
+Use Case:
+For example, if the user chooses to perform a brute-force attack on the FTP service, the script
+will reference the service_ports dictionary to find that FTP is running on port 21. This makes
+the script both flexible and scalable, as it can handle different network configurations and
+service setups without hardcoding port numbers.
 
 Every screenshot should have some text explaining what the screenshot is about.
 
