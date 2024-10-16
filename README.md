@@ -525,74 +525,180 @@ Example in Practice
 In a real-world penetration test, the user might encounter an environment where SSH is known to be vulnerable due to weak credentials. By selecting only SSH for brute-force attacks, the user can focus their efforts on this service, increasing the likelihood of a successful attack. This part of the script enhances its usability, allowing the user to adapt the testing process to
 their specific needs and goals. By providing options for both targeted and comprehensive attacks, the script becomes a versatile tool in the penetration tester's toolkit.
 
-Brute-Force Attacks on Vulnerable Services
-Overview
+### Brute-Force Attacks on Vulnerable Services
+
+### Overview
+
 This section of the script handles the brute-force attacks on the vulnerable services identified in
 the previous stages. The user-selected services (FTP, SSH, RDP, Telnet) are targeted using
 Hydra, with the username and password lists provided earlier in the script.
-Code Section
+
+### Code Section
+
 Here is the code snippet that handles brute-force attacks:
-Detailed Explanation
-1. Checking for Vulnerable Services:
-○ Before launching brute-force attacks, the script checks if any vulnerable services
-were identified during the vulnerability assessment. If no vulnerabilities are found,
-the brute-force attacks are skipped.
-2. Tracking Attempted Services:
-○ The script uses a set (attempted_services) to track the service/port
-combinations that have already been targeted. This ensures that the same
-service is not brute-forced multiple times, avoiding redundant attacks.
-3. Iterating Through Vulnerable Services:
-○ The script iterates through the list of vulnerable services and ports that were
-identified earlier. For each service, it checks if the service is part of the
-user-selected services for brute-forcing.
-4. Executing Hydra for Brute-Force Attacks:
-○ If a service is selected for brute-forcing and has not been attempted yet, the
-script constructs a Hydra command to perform the attack. Hydra is a powerful
-tool that can perform dictionary-based attacks against various services, using the
-username and password lists provided by the user.
-Example Hydra command:
-hydra -vV -L /path/to/usernames.txt -P
-/path/to/passwords.txt 192.168.232.136 ssh -s 22
-○ Flags Explanation:
-■ -vV: Enables verbose output, providing detailed logs of the attack
-progress.
-■ -L: Specifies the path to the username list.
-■ -P: Specifies the path to the password list.
-■ The service (e.g., ssh) and the port (-s 22) are specified based on the
-service being targeted.
-5. Handling Command Output:
-○ The script captures the output of the Hydra command and checks for success
-indicators like "login:" or "password:" in the output. If a successful login is found,
-the details are written to the output file, and the user is notified.
-○ If no successful attempts are found, the script logs the failure and moves on to
-the next service.
-6. Error Handling:
-○ The script checks the return code of the Hydra process to detect any errors
-during the attack. If the command fails, the user is informed, and the script
-continues with the next service.
-7. Avoiding Duplicate Attempts:
-○ After a service/port combination has been attempted, it is added to the
-attempted_services set. This ensures that the same service is not
-brute-forced again, optimizing the script's performance and avoiding redundant
-attacks.
-8. Example Usage:
-○ Suppose the user selected FTP and SSH for brute-forcing. If the vulnerability
-assessment identified these services as vulnerable, the script would attempt
-brute-force attacks on the relevant ports (e.g., 21 for FTP, 22 for SSH).
-○ The results of the brute-force attacks, whether successful or not, would be logged
-in the output file, providing a clear record of the attack outcomes.
-Why This is Important
+
+![Code Snippet](.\images\bruteforce_vul_service.png "Code Snippet")
+
+### Detailed Explanation
+
+* Checking for Vulnerable Services:
+    * Before launching brute-force attacks, the script checks if any vulnerable services were identified during the vulnerability assessment. If no vulnerabilities are found, the brute-force attacks are skipped.
+* Tracking Attempted Services:
+    * The script uses a set (attempted_services) to track the service/port combinations that have already been targeted. This ensures that the same service is not brute-forced multiple times, avoiding redundant attacks.
+* Iterating Through Vulnerable Services:
+    * The script iterates through the list of vulnerable services and ports that were identified earlier. For each service, it checks if the service is part of the user-selected services for brute-forcing.
+* Executing Hydra for Brute-Force Attacks:
+    * If a service is selected for brute-forcing and has not been attempted yet, the script constructs a Hydra command to perform the attack. Hydra is a powerful tool that can perform dictionary-based attacks against various services, using the username and password lists provided by the user.
+
+    Example Hydra command:
+    > `hydra -vV -L /path/to/usernames.txt -P /path/to/passwords.txt 192.168.232.136 ssh -s 22`
+    > * Flags Explanation:
+    > * -vV: Enables verbose output, providing detailed logs of the attack progress.
+    > * -L: Specifies the path to the username list.
+    > * -P: Specifies the path to the password list.
+    > * The service (e.g., ssh) and the port (-s 22) are specified based on the service being targeted.
+
+* Handling Command Output:
+    * The script captures the output of the Hydra command and checks for success indicators like "login:" or "password:" in the output. If a successful login is found, the details are written to the output file, and the user is notified.
+    * If no successful attempts are found, the script logs the failure and moves on to the next service.
+* Error Handling:
+* The script checks the return code of the Hydra process to detect any errors during the attack. If the command fails, the user is informed, and the script continues with the next service.
+* Avoiding Duplicate Attempts:
+    * After a service/port combination has been attempted, it is added to the attempted_services set. This ensures that the same service is not brute-forced again, optimizing the script's performance and avoiding redundant attacks.
+* Example Usage:
+    * Suppose the user selected FTP and SSH for brute-forcing. If the vulnerability assessment identified these services as vulnerable, the script would attempt brute-force attacks on the relevant ports (e.g., 21 for FTP, 22 for SSH).
+    * The results of the brute-force attacks, whether successful or not, would be logged in the output file, providing a clear record of the attack outcomes.
+
+#### Why This is Important
+
 Brute-force attacks are a fundamental technique in penetration testing, particularly when weak
 credentials are suspected. This section of the script automates the process, allowing the user to
 efficiently target vulnerable services and identify weak login credentials. By integrating Hydra,
 the script leverages a powerful tool for brute-forcing, increasing the chances of successfully
 compromising the target.
+
 Example in Practice
+
 In a real-world penetration test, the script might identify a vulnerable SSH service on a specific
 port. By using Hydra to brute-force this service, the tester can potentially gain unauthorized
 access to the system, highlighting a critical security flaw that needs to be addressed.
 This part of the script is crucial for testing the resilience of services against brute-force attacks,
 making it a valuable asset in any penetration tester's toolkit.
+
+### Searching and Viewing the Results
+
+### Overview
+
+This section of the script allows the user to search through the results of the scan and
+brute-force attempts. It provides two options: using grep for command-line searching and
+opening the results in a code editor for manual inspection.
+
+### Code Section
+
+Here is the code snippet that handles searching and viewing results:
+
+![Code Snippet](.\images\Search_view.png "Search Code Snippet")
+
+### Detailed Explanation
+
+* Search with grep:
+    * The script provides a command-line search option using grep. The user is prompted to enter a search term, which is then used to search through the results file.
+    * The grep command is case-insensitive (`-i flag`) to ensure that matches are found regardless of the case of the search term.
+    * This is useful for quickly locating specific information within a large results file, such as finding occurrences of a particular service, port number, or vulnerability.
+
+        > Example:
+        > ![Code Snippet](.\images\search_ftp.png "Term to Search")
+        > The script will execute:
+        > ![Code Snippet](.\images\search_script_ftp.jpg "Code Snippet")
+        > This command searches for all instances of "ftp" (case-insensitive) in the results file and displays the matching lines.
+* Open Results in Geany:
+    * As an alternative to command-line searching, the script offers the option to open the results file in Geany, a graphical text editor.
+    * If the user chooses to open the file in Geany, the script executes a command to launch the editor with the results file. This allows the user to manually browse through the file, use search features in Geany, and analyze the data more comfortably.
+
+        > Example:
+        > The script will prompt:
+        > ![Code Snippet](.\images\search_geany.png "Code Snippet")
+        > * If the user selects "yes," the script runs:
+            > ![Code Snippet](.\images\search_geany_results.jpg "Code Snippet")
+        > This command opens the results file in the Geany editor, where the user can use the editor's features to navigate through the data.
+* User-Friendly Options:
+    * By providing both grep and Geany as options, the script caters to different user preferences. Users who are comfortable with the command line can quickly search with grep, while those who prefer a graphical interface can use Geany.
+    * This flexibility makes the script accessible to a wider range of users, ensuring that the results can be efficiently analyzed regardless of the user's skill level or preferred working environment.
+* Error Handling:
+    * The script includes basic error handling for the Geany option. If the user enters an invalid choice (other than "yes" or "no"), they are prompted again until a valid selection is made. This prevents the script from proceeding with incorrect input.
+
+#### Why This is Important
+
+The ability to search and view results efficiently is crucial in penetration testing. Large scan
+results can be overwhelming, and finding specific information quickly can make the difference
+between identifying a vulnerability or missing it entirely. By offering both command-line and
+graphical options, the script ensures that users can analyze the data in the way that best suits
+their workflow.
+
+Example in Practice
+
+In a real-world scenario, after performing a full scan and vulnerability assessment, a penetration
+tester might want to quickly locate all instances of a particular service (e.g., SSH) in the results.
+Using the grep function, they can instantly filter the results, saving time and allowing them to
+focus on the relevant data.
+This part of the script enhances its usability by making the data accessible and easy to
+navigate, which is essential for effective penetration testing.
+
+Zipping everything into a ZIP file
+Overview
+The final part of the script allows users to compress all the generated result files into a single
+ZIP file. This feature is useful for organizing the output, making it easier to store, transfer, or
+submit the results for further analysis.
+Code Section
+Here is the code snippet that handles zipping the results:
+Detailed Explanation
+1. Prompting the User:
+○ The script first prompts the user to decide whether they want to compress all
+result files into a single ZIP file. This prompt is presented after all the scanning,
+vulnerability assessment, and brute-force attempts are completed.
+○ The user can respond with "yes" to proceed with zipping the files or "no" to skip
+this step.
+2. Creating the ZIP Archive:
+○ If the user chooses to zip the files, the script creates a new ZIP file named
+scan_results.zip in the specified output directory.
+○ The script uses Python’s built-in zipfile module to handle the compression.
+The zipfile.ZipFile class is used to create a new ZIP file, and the write()
+method adds files to it.
+3. Filtering Files to Include:
+○ The script recursively walks through the output directory using os.walk() to
+identify all the files that should be added to the ZIP archive.
+○ Only files with a .txt extension are included in the ZIP file. This ensures that
+only relevant result files (like scan outputs and logs) are compressed, avoiding
+unnecessary files.
+4. Error Handling and Re-prompting:
+○ If the user enters an invalid choice (anything other than "yes" or "no"), the script
+will prompt them again until a valid response is provided. This ensures that the
+script behaves as expected and doesn't proceed with incorrect input.
+5. Feedback to the User:
+○ Once the zipping process is complete, the script provides feedback to the user,
+confirming that all results have been successfully compressed into the specified
+ZIP file. This message is color-coded in green to indicate success.
+Why This is Important
+The ability to zip all the results into a single file is important for several reasons:
+● Organization: Compressing all results into a single file helps in keeping the output
+organized and prevents clutter in the working directory.
+● Portability: A ZIP file is easier to transfer between systems, whether for backup
+purposes, sharing with team members, or submitting for grading in an educational
+setting.
+● Space Saving: By compressing the files, the script helps save disk space, especially if
+the scan results are large.
+Example in Practice
+In a penetration testing scenario, after completing all scans and assessments, a tester may
+need to submit the results to their client or store them for future reference. Having all results
+compressed into a single ZIP file makes this process straightforward and ensures that no files
+are accidentally omitted.
+By including this feature, the script ensures that users can easily manage the outputs of their
+scanning and brute-force activities, making the overall process more efficient and user-friendly.
+The final part of the script ties everything together by providing a clean and organized way to
+handle the outputs. The option to compress the results into a ZIP file adds a layer of
+professionalism and practicality to the tool, making it a complete package for network scanning,
+vulnerability assessment, and brute-force testing.
+
 
 Every screenshot should have some text explaining what the screenshot is about.
 
