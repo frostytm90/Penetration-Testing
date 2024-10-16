@@ -183,7 +183,7 @@ In the initial phase of the script, the goal is to ensure that all the necessary
 
 Here’s the code snippet that handles tool checking, installation, and updating:
 
-![Code Snippet](.\images\code_snippet.png "Code Snippet")
+![Code Snippet](/images/code_snippet.png "Code Snippet")
 
 ### Detailed Explanation
 
@@ -230,7 +230,7 @@ parameters for the entire operation, allowing for a tailored experience based on
 
 Below is the code snippet that handles user input:
 
-![Code Snippet](.\images\userinput_handling.png "User Handling")
+![Code Snippet](/images/userinput_handling.png "User Handling")
 
 ### Detailed Explanation
 
@@ -290,7 +290,7 @@ This part of the script is responsible for conducting the TCP scan using Nmap, w
 
 Below is the code snippet that handles the TCP scan:
 
-![Code Snippet](.\images\tcpscan.png "tcp_scan")
+![Code Snippet](/images/tcpscan.png "tcp_scan")
 
 ### Detailed Explanation
 
@@ -320,7 +320,7 @@ By automating this process, the script ensures that all potential attack vectors
 
 > Example in Practice
 > After running the scan, the user might review the tcp_scan_results.txt file and see output like this:
-> ![Code Snippet](.\images\tcpscan_example.png "tcpscan_example")
+> ![Code Snippet](/images/tcpscan_example.png "tcpscan_example")
 > This output reveals that FTP, SSH, and HTTP services are running on the target machine, with specific versions identified. These
 > services become targets for further testing and exploitation. 
 >
@@ -341,7 +341,7 @@ access during the vulnerability assessment and brute-force attack stages.
 
 Here is the code snippet that handles the extraction of service ports:
 
-![Code Snippet](.\images\extractionSP.png "ESP")
+![Code Snippet](/images/extractionSP.png "ESP")
 
 ### Detailed Explanation
 
@@ -365,7 +365,7 @@ Here is the code snippet that handles the extraction of service ports:
 
     > Example Output:
     > If the TCP scan detects the following services, the service_ports dictionary might look like this:
-    > ![Code Snippet](.\images\ESP_example.png "Code Snippet")
+    > ![Code Snippet](/images/ESP_example.png "Code Snippet")
 
 #### Why This is Important
 
@@ -388,7 +388,7 @@ In this section, the script performs vulnerability mapping by searching for know
 
 Here is the code snippet that handles vulnerability mapping:
 
-![Code Snippet](.\images\Vulner_map.png "Vulnerability Mapping")
+![Code Snippet](/images/Vulner_map.png "Vulnerability Mapping")
 
 ### Detailed Explanation
 
@@ -415,7 +415,7 @@ Here is the code snippet that handles vulnerability mapping:
 
 * Example Output:
     > After the vulnerability mapping is complete, the tcp_scan_results.txt file might include entries like this:
-    > ![Code Snippet](.\images\Vulner_result.png "Vulnerability Mapping Result")
+    > ![Code Snippet](/images/Vulner_result.png "Vulnerability Mapping Result")
     > * This output provides valuable information about potential vulnerabilities that can be further exploited during penetration
     > testing.
 
@@ -438,7 +438,7 @@ This section of the script prompts the user to choose whether they want to use t
 
 Here is the code snippet that handles getting the username and password lists:
 
-![Code Snippet](.\images\getcredlist.png "Code Snippet")
+![Code Snippet](/images/getcredlist.png "Code Snippet")
 
 ### Detailed Explanation
 
@@ -463,10 +463,10 @@ Here is the code snippet that handles getting the username and password lists:
 
     Example Usage:
     > * Default Option:
-        > * ![Code Snippet](.\images\gcl_default.png "default selection")
+        > * ![Code Snippet](/images/gcl_default.png "default selection")
         > * The script will proceed with the predefined lists for brute-force attacks.
     > * Custom Option:
-    > * ![Code Snippet](.\images\gcl_custom.png "custom selection")
+    > * ![Code Snippet](/images/gcl_custom.png "custom selection")
     > * The script will validate the provided paths and use the custom lists for brute-force attacks.
 
 #### Why This is Important
@@ -487,7 +487,7 @@ This section of the script allows the user to select which services (FTP, SSH, R
 
 Here is the code snippet that handles service selection:
 
-![Code Snippet](.\images\bruteforce_selection.png "Code Snippet")
+![Code Snippet](/images/bruteforce_selection.png "Code Snippet")
 
 ### Detailed Explanation
 
@@ -506,10 +506,10 @@ Here is the code snippet that handles service selection:
 
 Example Usage:
 * Specific Services:
-    ![Code Snippet](.\images\bruteforce_specific.jpg "Specific Services")
+    ![Code Snippet](/images/bruteforce_specific.jpg "Specific Services")
     * The script will target FTP and SSH for brute-force attacks.
 * All Services:
-    ![Code Snippet](.\images\bruteforce_all.png "All Services")
+    ![Code Snippet](/images/bruteforce_all.png "All Services")
     * The script will target all supported services (FTP, SSH, RDP, Telnet) for brute-force attacks.
 
 * Flexibility and Focus:
@@ -537,7 +537,7 @@ Hydra, with the username and password lists provided earlier in the script.
 
 Here is the code snippet that handles brute-force attacks:
 
-![Code Snippet](.\images\bruteforce_vul_service.png "Code Snippet")
+![Code Snippet](/images/bruteforce_vul_service.png "Code Snippet")
 
 ### Detailed Explanation
 
@@ -597,7 +597,7 @@ opening the results in a code editor for manual inspection.
 
 Here is the code snippet that handles searching and viewing results:
 
-![Code Snippet](.\images\Search_view.png "Search Code Snippet")
+![Code Snippet](/images/Search_view.png "Search Code Snippet")
 
 ### Detailed Explanation
 
@@ -607,9 +607,10 @@ Here is the code snippet that handles searching and viewing results:
     * This is useful for quickly locating specific information within a large results file, such as finding occurrences of a particular service, port number, or vulnerability.
 
         > Example:
-        > ![Code Snippet](.\images\search_ftp.png "Term to Search")
+        > ![Code Snippet](/images/search_ftp.png "Term to Search")
         > The script will execute:
-        > ![Code Snippet](.\images\search_script_ftp.jpg "Code Snippet")
+        > ![Code Snippet](/images/search_script_ftp.jpg "Code Snippet")
+        > 
         > This command searches for all instances of "ftp" (case-insensitive) in the results file and displays the matching lines.
 * Open Results in Geany:
     * As an alternative to command-line searching, the script offers the option to open the results file in Geany, a graphical text editor.
@@ -617,9 +618,9 @@ Here is the code snippet that handles searching and viewing results:
 
         > Example:
         > The script will prompt:
-        > ![Code Snippet](.\images\search_geany.png "Code Snippet")
+        > ![Code Snippet](/images/search_geany.png "Code Snippet")
         > * If the user selects "yes," the script runs:
-            > ![Code Snippet](.\images\search_geany_results.jpg "Code Snippet")
+        > * > ![Code Snippet](/images/search_geany_results.jpg "Code Snippet")
         > This command opens the results file in the Geany editor, where the user can use the editor's features to navigate through the data.
 * User-Friendly Options:
     * By providing both grep and Geany as options, the script caters to different user preferences. Users who are comfortable with the command line can quickly search with grep, while those who prefer a graphical interface can use Geany.
@@ -646,7 +647,7 @@ The final part of the script allows users to compress all the generated result f
 
 Here is the code snippet that handles zipping the results:
 
-![Code Snippet](.\images\zip_code.png "Code Snippet")
+![Code Snippet](/images/zip_code.png "Code Snippet")
 
 ### Detailed Explanation
 
