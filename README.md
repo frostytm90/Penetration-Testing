@@ -230,7 +230,69 @@ parameters for the entire operation, allowing for a tailored experience based on
 
 Below is the code snippet that handles user input:
 
+![Code Snippet](.\images\userinput_handling.png "User Handling")
+
+### Detailed Explanation
+
+* Getting Network Range (`get_network_input`):
+    * The script first prompts the user to input a network range in the format 192.168.x.x/24.
+        * If the input doesn’t match the expected format, the script prints an error message and recursively calls the function to prompt the user again. This ensures that only valid input is accepted.    
+    * **Regex Validation**: The input is validated using a regular expression that checks for proper IP address formatting (e.g., four octets separated by periods) and the subnet mask length (e.g., /24).
+* Regex Breakdown:
+    * ^\d{1,3}: This part checks for the first octet of the IP address, which should be a number between 1 and 3 digits long.
+    * (\.\d{1,3}){3}: This checks for the next three octets, each separated by a dot, again ensuring they are between 1 and 3 digits.
+    * /\d{1,2}$: This checks for the subnet mask, which is typically between 1 and 2 digits (e.g., /24).
+
+    > Example Input:
+    > Valid: 192.168.1.0/24
+    > Invalid: 192.168.256.0/33
+
+* Getting Output Directory (`get_output_directory`):
+    * The user is asked whether they want to save the output in the current directory or specify a custom directory.
+    * **Directory Handling**:
+        * If the user chooses to save in the current directory (yes), the script uses os.getcwd() to get the current working directory and logs a status message indicating where the output will be saved.
+        * If the user chooses a custom directory (no), the script prompts the user to input a directory path. If the directory doesn’t exist, it’s created using os.makedirs() to ensure that the output can be saved there.
+        * If the user provides an invalid choice (not yes or no), the script recursively calls the function to prompt for valid input.
+
+    > Example Input:
+    > Choosing yes: The output will be saved in the current directory, such as /home/user/.
+    > Choosing no: The user might input /home/user/custom_dir, and the script will create this directory if it doesn’t exist.
+* Choosing Scan Type (get_scan_type):
+    * The user is prompted to select either a "Basic" or "Full" scan.
+    * **Input Validation**: The input is converted to lowercase and validated against the allowed choices (basic or full). If the input is invalid, the script prints an error message and prompts the user again.
+
+    > Example Input:
+    > Valid: basic, full
+    > Invalid: medium (would trigger an error and prompt the user again)
+
+#### Why This is Important
+
+User input is a critical aspect of the script, as it defines how the subsequent processes will be executed. By validating inputs and providing feedback, the script ensures that only valid data is processed, minimizing the risk of errors during execution.
+
+This part of the script adds flexibility, allowing users to customize the scanning process according to their needs. For example, they can specify which network range to scan and where to save the results, ensuring that the script fits seamlessly into their workflow.
+
+    > Example in Practice
+    > Network Input: When the script asks for the network range, the user might input 192.168.1.0/24.
+      The script will validate this input and proceed only if it’s in the correct format.
+    > Output Directory: If the user chooses to save the results in a custom directory,
+      they might input /home/user/scans, and the script will create this directory if it doesn’t already exist.
+
+By handling user inputs effectively, the script ensures that the entire process is configured correctly from the start, leading to more accurate and reliable outcomes. With these inputs set, the script can then move forward to the actual scanning and analysis
+phases. This user-centric approach makes the tool both powerful and accessible to users of varying expertise levels.
+
+### Perform the TCP Scan
+
+### Overview
+
+This part of the script is responsible for conducting the TCP scan using Nmap, which is essential for identifying open ports and services on the target network. The scan results are saved to a specified output file, allowing for further analysis in subsequent steps.
+
+### Code Section
+
+Below is the code snippet that handles the TCP scan:
+
+![Code Snippet](.\images\code_snippet.png "Code Snippet")
 
 Every screenshot should have some text explaining what the screenshot is about.
+
 
 Example below.
