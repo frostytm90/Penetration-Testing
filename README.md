@@ -290,8 +290,42 @@ This part of the script is responsible for conducting the TCP scan using Nmap, w
 
 Below is the code snippet that handles the TCP scan:
 
-![Code Snippet](.\images\code_snippet.png "Code Snippet")
+![Code Snippet](.\images\tcpscan.png "tcp_scan")
 
+### Detailed Explanation
+
+* Nmap Command Breakdown:
+    * `nmap -sS`: This flag tells Nmap to perform a TCP SYN scan, also known as a stealth scan. This type of scan sends SYN packets to the target ports and listens for responses, allowing it to detect open ports without completing the TCP handshake. It’s a widely used method because it’s faster and less detectable than a full TCP connection scan.
+    * `-sV`: This flag enables version detection, which allows Nmap to probe open ports and determine the services running on them along with their version numbers. This is crucial for vulnerability assessment and further analysis.
+    * -oN {output_file}: This flag specifies the output format (normal format) and the file where the results will be saved. By saving the scan results to a file, the script ensures that the data can be accessed and used later in the process.
+* File Handling:
+    * Output File Creation: The scan results are saved in a file named tcp_scan_results.txt in the specified output directory. This file will contain all the information gathered during the TCP scan, including open ports and detected services.
+    * Directory Management: The script checks whether the specified output directory exists and creates it if necessary. This ensures that the scan results are saved in the correct location.
+* Logging:
+    * Status Updates: The script logs status messages to keep the user informed about the progress of the scan. For example, it informs the user when the scan is starting and when it has completed. This is helpful for managing expectations, especially since network scans can take some time depending on the network size and the number of hosts.
+
+    > Example in Practice:
+        > Suppose the user inputs a network range of 192.168.1.0/24. The generated Nmap command would be:
+        > *  `nmap -sS -sV 192.168.1.0/24 -oN /path/to/output_directory/tcp_scan_results.txt`
+* Output Format:
+    * Normal Format Output: The -oN flag ensures that the results are saved in a human-readable format. This is important because the next steps in the script will parse this file to extract relevant information such as service names, versions, and ports.
+* Importance of the TCP Scan:
+    * The TCP scan is a foundational step in the network assessment process. It identifies the open ports and running services, which are key targets for further analysis, such as vulnerability mapping and brute-force attacks. By understanding the network’s attack surface, security practitioners can prioritize areas for deeper investigation.
+
+#### Why This is Important
+
+The TCP scan serves as the foundation for identifying potential entry points into the network. By discovering open ports and services, the script sets the stage for subsequent vulnerability assessments and brute-force attacks. This step is critical for understanding the network's exposure and identifying weak points that could be exploited by attackers.
+
+By automating this process, the script ensures that all potential attack vectors are identified quickly and efficiently. This information is then used to guide further analysis, making it a crucial part of any cybersecurity assessment.
+
+> Example in Practice
+> After running the scan, the user might review the tcp_scan_results.txt file and see output like this:
+This output reveals that FTP, SSH, and HTTP services are running on the target machine, with
+specific versions identified. These services become targets for further testing and exploitation.
+In summary, this part of the script efficiently identifies open ports and running services, setting
+the stage for the vulnerability assessments and brute-force attacks that follow. The use of
+Nmap’s powerful scanning capabilities ensures comprehensive coverage of the network, while
+the output file provides a structured format for analysis
 Every screenshot should have some text explaining what the screenshot is about.
 
 
