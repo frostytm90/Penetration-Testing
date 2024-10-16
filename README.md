@@ -364,24 +364,134 @@ Here is the code snippet that handles the extraction of service ports:
     * The dictionary service_ports stores the mapping of service names to their corresponding ports. This dictionary is returned at the end of the function and is used later in the script to identify which ports to target during brute-force attacks.
 
     > Example Output:
-○ If the TCP scan detects the following services, the service_ports dictionary
-might look like this:
-Why This is Important
-This step is crucial because it provides a structured way to access the services detected during
-the scan. By storing the service-port mappings in a dictionary, the script can efficiently identify
-and target specific services during the vulnerability assessment and brute-force attack stages.
-The regex pattern matches this line, extracts the port number (22) and service name (ssh), and
-adds them to the service_ports dictionary. This allows the script to later reference the SSH
-service and its associated port number when performing brute-force attacks or vulnerability
-assessments.
-By breaking down the scan results in this way, the script ensures that it can easily access and
-utilize the information gathered during the TCP scan. This structured approach is essential for
-the subsequent stages of the script, where precise targeting of services is required.
-Use Case:
-For example, if the user chooses to perform a brute-force attack on the FTP service, the script
-will reference the service_ports dictionary to find that FTP is running on port 21. This makes
-the script both flexible and scalable, as it can handle different network configurations and
+    > If the TCP scan detects the following services, the service_ports dictionary might look like this:
+    > ![Code Snippet](.\images\ESP_example.png "Code Snippet")
+
+#### Why This is Important
+
+This step is crucial because it provides a structured way to access the services detected during the scan. By storing the service-port mappings in a dictionary, the script can efficiently identify and target specific services during the vulnerability assessment and brute-force attack stages.
+The regex pattern matches this line, extracts the port number (22) and service name (ssh), and adds them to the service_ports dictionary. This allows the script to later reference the SSH service and its associated port number when performing brute-force attacks or vulnerability assessments.
+
+By breaking down the scan results in this way, the script ensures that it can easily access and utilize the information gathered during the TCP scan. This structured approach is essential for the subsequent stages of the script, where precise targeting of services is required.
+
+#### Use Case:
+For example, if the user chooses to perform a brute-force attack on the FTP service, the script will reference the service_ports dictionary to find that FTP is running on port 21. This makes the script both flexible and scalable, as it can handle different network configurations and
 service setups without hardcoding port numbers.
+
+### Vulnerability Mapping
+
+### Overview
+
+In this section, the script performs vulnerability mapping by searching for known vulnerabilities associated with the services detected during the TCP scan. This is done using the Searchsploit tool, which provides a database of exploits and vulnerabilities based on service versions. The results of the vulnerability mapping are appended to the TCP scan results file.
+
+### Code Section
+
+Here is the code snippet that handles vulnerability mapping:
+
+![Code Snippet](.\images\Vulner_map.png "Vulnerability Mapping")
+
+### Detailed Explanation
+
+* Starting the Vulnerability Mapping:
+    * The script begins by informing the user that vulnerability mapping is starting. This sets the stage for the next phase, where the script will attempt to identify known vulnerabilities associated with the detected services.
+    * Searchsploit:
+        * Searchsploit: This tool provides access to a vast database of known exploits and vulnerabilities. By querying Searchsploit with the service version identified during the TCP scan, the script can find relevant vulnerabilities that might be exploited.
+    * Command Execution: The script constructs a command using the searchsploit tool and executes it in the shell. The command is designed to search for vulnerabilities related to the service version detected in the previous scan. For example, if the service version is "Apache 2.4.29," the command would be
+        * `searchsploit Apache 2.4.29`
+    * Capturing Output: The script captures the output of the searchsploit command and writes it to the TCP scan results file. If vulnerabilities are found, the details are appended to the file under a "Vulnerability Assessment Results" section.
+
+* Regex Matching and Data Extraction:
+    * The script uses regular expressions (regex) to extract the service name, port number, and version from the Nmap scan results. This information is crucial for querying Searchsploit with the correct service version.
+* Regex Breakdown:
+    * `\d{1,5}/tcp`: Matches the port number followed by /tcp.
+    * `\s+open\s+`: Matches the word "open" surrounded by whitespace.
+    * `\S+`: Captures the service name.
+    * `.*`: Captures the service version.
+    * The script then checks if the service/port pair has already been processed. If not, it adds the pair to the vulnerable_services set and performs the vulnerability check.
+
+* Appending Results:
+    * File Handling: The script opens the TCP scan results file in append mode, ensuring that the vulnerability assessment results are added to the end of the file without overwriting existing data.
+    * Unique Vulnerable Services: By using a set (vulnerable_services) to track unique service/port pairs, the script avoids duplicating vulnerability checks for the same service running on different ports.
+
+* Example Output:
+    > After the vulnerability mapping is complete, the tcp_scan_results.txt file might include entries like this:
+    > ![Code Snippet](.\images\Vulner_result.png "Vulnerability Mapping Result")
+    > * This output provides valuable information about potential vulnerabilities that can be further exploited during penetration
+    > testing.
+
+#### Why This is Important
+
+Vulnerability mapping is a critical step in identifying potential weaknesses in the network. By leveraging known exploits, security practitioners can prioritize areas for further testing and remediation. The results of this phase guide the brute-force attacks and other penetration testing efforts that follow.
+
+Example in Practice
+
+If the Nmap scan detects Apache 2.4.29 running on port 80, the script uses Searchsploit to find
+any known vulnerabilities associated with that version. If an exploit is found, the details are
+written to the results file, providing actionable intelligence for further testing.
+By automating this process, the script ensures comprehensive coverage of all detected
+services, making it a valuable tool for vulnerability assessments.
+
+Getting Credentials Lists
+Overview
+This section of the script prompts the user to choose whether they want to use the default
+username and password lists for brute-force attacks or specify custom ones. The script ensures
+that the provided file paths exist and are valid before proceeding.
+Code Section
+Here is the code snippet that handles getting the username and password lists:
+Detailed Explanation
+1. User Choice for Default or Custom Lists:
+○ The script first prompts the user with a choice: whether to use the default
+username and password lists or specify custom ones. This gives the user
+flexibility in how they approach the brute-force attacks.
+○ The input() function captures the user's response, and the .lower() method
+ensures that the input is normalized to lowercase for comparison.
+2. Default Lists:
+○ If the user selects the default option ('yes'), the script automatically uses the
+predefined paths for the username and password lists:
+■ default_username_list =
+"/home/kali/PenTesting/PenTestingProject/top-usernames
+-shortlist.txt"
+■ default_password_list =
+"/home/kali/PenTesting/PenTestingProject/default-basic
+-14-passwords.txt"
+○ These paths point to files containing common usernames and passwords that will
+be used for the brute-force attacks.
+3. Custom Lists:
+○ If the user opts to use custom lists ('no'), the script prompts them to provide the
+file paths for both the username and password lists.
+○ The os.path.exists() function checks whether the provided file paths are
+valid. If either path is invalid, the script informs the user and prompts them to
+enter valid paths.
+4. Error Handling:
+○ If the user enters an invalid choice (neither 'yes' nor 'no'), the script displays
+an error message and prompts the user again until a valid choice is made.
+○ This ensures that the script always proceeds with valid input, reducing the
+likelihood of runtime errors due to missing or incorrect file paths.
+5. Flexibility and Customization:
+○ This approach allows the script to be flexible and adaptable to different
+scenarios. If the user has specific username and password lists tailored to a
+particular target, they can easily integrate those into the brute-force process
+○ By default, the script provides a basic set of commonly used usernames and
+passwords, making it useful for general testing scenarios.
+Example Usage:
+● Default Option:
+○
+○ The script will proceed with the predefined lists for brute-force attacks.
+● Custom Option:
+○
+○ The script will validate the provided paths and use the custom lists for
+brute-force attacks.
+Why This is Important
+The ability to choose between default and custom lists enhances the usability of the script.
+Users can quickly proceed with default options or fine-tune the brute-force process by supplying
+their own lists. This flexibility is essential in penetration testing, where different environments
+may require different approaches.
+Example in Practice
+In a real-world scenario, a penetration tester might have a custom password list that is specific
+to a particular organization or target. By allowing the user to input custom lists, the script can
+adapt to various testing needs, making it a more powerful and versatile tool.
+This part of the script lays the groundwork for the brute-force attacks that follow, ensuring that
+the right credentials are used to maximize the chances of success.
 
 Every screenshot should have some text explaining what the screenshot is about.
 
