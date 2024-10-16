@@ -320,12 +320,29 @@ By automating this process, the script ensures that all potential attack vectors
 
 > Example in Practice
 > After running the scan, the user might review the tcp_scan_results.txt file and see output like this:
-This output reveals that FTP, SSH, and HTTP services are running on the target machine, with
-specific versions identified. These services become targets for further testing and exploitation.
-In summary, this part of the script efficiently identifies open ports and running services, setting
-the stage for the vulnerability assessments and brute-force attacks that follow. The use of
-Nmap’s powerful scanning capabilities ensures comprehensive coverage of the network, while
-the output file provides a structured format for analysis
+> ![Code Snippet](.\images\tcpscan_example.png "tcpscan_example")
+> This output reveals that FTP, SSH, and HTTP services are running on the target machine, with specific versions identified. These
+> services become targets for further testing and exploitation. 
+>
+> * In summary, this part of the script efficiently identifies open 
+>   ports and running services, setting the stage for the vulnerability assessments and brute-force attacks that follow. The use of
+>   Nmap’s powerful scanning capabilities ensures comprehensive coverage of the network, while the output file provides a structured
+>   format for analysis
+
+### Extracting Service Ports
+
+### Overview
+
+This section of the script is responsible for parsing the results of the TCP scan and extracting
+the open ports and corresponding services. The extracted data is stored in a dictionary for easy
+access during the vulnerability assessment and brute-force attack stages.
+
+### Code Section
+
+Here is the code snippet that handles the extraction of service ports:
+
+![Code Snippet](.\images\code_snippet.png "Code Snippet")
+
 Every screenshot should have some text explaining what the screenshot is about.
 
 
