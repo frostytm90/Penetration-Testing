@@ -629,22 +629,14 @@ Here is the code snippet that handles searching and viewing results:
 
 #### Why This is Important
 
-The ability to search and view results efficiently is crucial in penetration testing. Large scan
-results can be overwhelming, and finding specific information quickly can make the difference
-between identifying a vulnerability or missing it entirely. By offering both command-line and
-graphical options, the script ensures that users can analyze the data in the way that best suits
+The ability to search and view results efficiently is crucial in penetration testing. Large scan results can be overwhelming, and finding specific information quickly can make the difference between identifying a vulnerability or missing it entirely. By offering both command-line and graphical options, the script ensures that users can analyze the data in the way that best suits
 their workflow.
 
 Example in Practice
 
-In a real-world scenario, after performing a full scan and vulnerability assessment, a penetration
-tester might want to quickly locate all instances of a particular service (e.g., SSH) in the results.
-Using the grep function, they can instantly filter the results, saving time and allowing them to
-focus on the relevant data.
-This part of the script enhances its usability by making the data accessible and easy to
-navigate, which is essential for effective penetration testing.
+In a real-world scenario, after performing a full scan and vulnerability assessment, a penetration tester might want to quickly locate all instances of a particular service (e.g., SSH) in the results. Using the grep function, they can instantly filter the results, saving time and allowing them to focus on the relevant data. This part of the script enhances its usability by making the data accessible and easy to navigate, which is essential for effective penetration testing.
 
-Zipping everything into a ZIP file
+### Zipping everything into a ZIP file
 Overview
 The final part of the script allows users to compress all the generated result files into a single
 ZIP file. This feature is useful for organizing the output, making it easier to store, transfer, or
