@@ -173,18 +173,64 @@ The methodologies used in this project are focused on systematically identifying
 
 ## Discussion
 
-Tools Check and Installation
-Overview
+### Tools Check and Installation
+
+### Overview
+
 In the initial phase of the script, the goal is to ensure that all the necessary tools and Python packages are installed and up to date. This is crucial for the rest of the script to function correctly, as missing tools would cause errors later in the process.
 
-Code Section
+### Code Section
 
 Here’s the code snippet that handles tool checking, installation, and updating:
 
-![Code Snippet](C:\Users\frost\Penetration-Testing\images\code_snippet.png "Code Snippet")
+![Code Snippet](.\images\code_snippet.png "Code Snippet")
+
+### Detailed Explanation
+
+#### Tools List:
+* required_tools: This dictionary holds the names of the tools that are necessary for the script to function. 
+    
+    For example:
+    > * nmap for network scanning,
+    > * searchsploit for vulnerability assessment,
+    > * hydra for brute-force attacks,
+    > * pip for Python package management.
+    
+    This ensures that the script covers different aspects of penetration testing, from scanning to exploitation.
+
+* Tool Check Function (`is_tool_installed`):
+    * This function tries to run each tool with the --version flag to check if it’s installed. If the tool isn’t found (FileNotFoundError), it returns False, indicating that the tool needs to be installed.
+    * This approach is efficient because it doesn’t require complex checks and leverages existing command-line utilities to determine the presence of the tool.
+
+* Installation and Update Function (`install_and_update_tools`):
+    * Missing Tools Identification:
+        * The script loops through the required tools and identifies any that aren’t installed. These tools are added to a missing_tools list, which will be installed later.
+    * System Tools Installation:
+        * If there are any missing tools, the script uses apt-get to update the package list (sudo apt-get update) and then installs the missing tools (`sudo apt-get install -y`). The ==-y== flag automatically answers "yes" to prompts during installation, ensuring the process is non-interactive.
+        * If the installation fails, the script exits (sys.exit(1)), preventing further execution without the required tools.
+        * Python Package Check and Installation:
+            * Similar to system tools, the script checks if the required Python packages (like colorama) are installed. If they’re missing, the script uses pip to install them. This ensures that the script can handle colored output for better user experience.
+* Error Handling:
+    * The script handles errors gracefully by checking for issues during tool installation. If something goes wrong, it prevents further execution, ensuring that the user is aware of the problem and can resolve it before continuing.
+
+#### Why This is Important 
+Ensuring that the environment is correctly set up is a crucial first step in any script. By automating the process of checking for and installing necessary tools, this script reduces the likelihood of encountering errors later on due to missing dependencies. It also makes the script more user-friendly, as it handles the setup process automatically.
+    
+This part of the script essentially acts as a "gatekeeper," ensuring that all the necessary components are in place before the main functionality of the script begins.
+
+### User Input Handling
+
+### Overview
+
+The script gathers various inputs from the user, such as the network range to scan, the output
+directory, and the type of scan to perform. This section is essential because it sets up the
+parameters for the entire operation, allowing for a tailored experience based on user needs.
+
+### Code Section
+
+Below is the code snippet that handles user input:
+
 
 Every screenshot should have some text explaining what the screenshot is about.
 
 Example below.
-
-*Ref 1: Network Diagram*
